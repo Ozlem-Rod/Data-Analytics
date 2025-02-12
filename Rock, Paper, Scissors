@@ -1,0 +1,33 @@
+def who_wins(player1, player2):
+  if player1 == player2:
+    return "It's a tie!"
+  elif (player1 == "rock" and player2 == "scissors") or \
+       (player1 == "scissors" and player2 == "paper") or \
+       (player1 == "paper" and player2 == "rock"):
+    return "Congratulations Player 1!  You win!"
+  else:
+    return "Congratulations Player 2!  You win!"
+
+choices = ["rock", "paper", "scissors"]
+
+while True:
+  print("\n--- Rock, Paper, Scissors ---")
+
+  import getpass
+  player1_choice = getpass.getpass("Player 1, enter rock, paper, or scissors (or 'quit' to exit): ")
+  player2_choice = getpass.getpass("Player 2, enter rock, paper, or scissors (or 'quit' to exit): ")
+
+  if player1_choice.lower() == 'quit' or player2_choice.lower() == 'quit':
+    print("Thank you for playing! \nPlease come back again!")
+    break
+
+  if player1_choice.lower() not in choices or player2_choice.lower() not in choices:
+    print("Invalid choice. Please choose rock, paper, or scissors.")
+    continue
+
+  print(f"\nPlayer 1 chose {player1_choice}.")
+  print(f"Player 2 chose {player2_choice}")
+
+  result = who_wins(player1_choice, player2_choice)
+  print(result)
+  print("Thanks for playing!")
