@@ -1,3 +1,53 @@
 import pandas as pd
 df = pd.read_csv("https://raw.githubusercontent.com/CunyLaguardiaDataAnalytics/datasets/master/2014-15_To_2016-17_School-_Level_NYC_Regents_Report_For_All_Variables.csv")
 df.head()
+
+# Clean data in Mean Score column
+df["Mean Score"] = pd.to_numeric(df["Mean Score"], errors="coerce")
+df_cleaned = df.dropna(subset=["Mean Score"])
+df_cleaned.to_csv("cleaned_data.csv", index=False)
+print(df_cleaned)
+
+# View average scores by year
+by_regents = df.groupby(['Regents Exam','Year'])['Mean Score'].mean()
+print(by_regents)
+
+# View average scores by school
+by_test = df.groupby(['Regents Exam','School Name','Year'])['Mean Score'].mean()
+print(by_test)
+
+# Visualization
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+data = {
+    "Year": [2015, 2016, 2017],
+    "NYC Earth Science":  [64.2, 64, 62.4],
+    "Queens Earth Science": [70, 70, 74.3],
+    "NYC US History and Government": [72.1, 70.7, 70.5],
+    "Queens US History and Government": [78.8, 78.75, 79.8]
+}
+    
+df = pd.DataFrame(data)
+
+plt.figure(figsize=(10, 6))
+sns.lineplot(x="Year", y="NYC Earth Science", data=df, marker="o", label="NYC Earth Science", color="blue")
+sns.lineplot(x="Year", y="Queens Earth Science", data=df, marker="o", label="Queens Earth Science", color="green")
+sns.lineplot(x="Year", y="NYC US History and Government", data=df, marker="o", label="NYC US History and Government", color="yellow")
+sns.lineplot(x="Year", y="Queens US History and Government", data=df, marker="o", label="Queens US History and Government", color="red")
+
+plt.xlabel("Year")
+plt.ylabel("Average Score (%)")
+plt.title("NYC vs. Queens Average Scores 2015-2017")
+plt.legend()
+plt.grid(True)
+
+plt.show()
+
+# Stats and Conclusion
+During 2015 to 2017, average test scores in US History and Government and Physical Settings/Earth Science in NYC Public Schools have declined.
+Despite the overall decrease in NYC average test scores in these subjects, the Young Women’s Leadership School of Queens showed improvement.
+While NYC average test scores in US History and Government declined at a rate of 0.8% from 2015 to 2017, the Young Women’s Leadership School of Queens average test scores increased at a rate of 0.5% per year.
+Similarly, Physical Settings/Earth Science NYC average test scores decreased 0.9% per year from 2015 to 2017 at the same time the Young Women’s Leadership School of Queens average test scores increased approximately 2.15% per year in this category.
+
